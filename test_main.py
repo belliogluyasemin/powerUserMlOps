@@ -75,3 +75,19 @@ def test_xgb_adasyn():
     assert "Predict" in response.json()
     assert response.json()["Predict"] in [0, 1]
 
+##Create Enviroment for test
+##python -m venv test_venv
+##Activate Test Enviroment
+##test_venv\Scripts\activate
+##requirements.txt file:
+##pytest
+##fastapi
+##httpx
+##numpy
+##scikit-learn
+##pandas
+##pip install -r requirements.txt
+#Run Test
+##pytest
+
+
