@@ -228,10 +228,35 @@ def xgb_model_output(x_train, y_train, x_test, y_test):
 
 xgb_model_output(x_adasyn,y_adasyn,x_test, y_test)
 
-xgb_adasyn_model = XGBClassifier(use_label_encoder=False, eval_metric='logloss', gamma = 0, learning_rate = 0.2, max_depth = 5, n_estimator = 150, reg_alpha = 0, reg_lambda = 1)
-xgb_adasyn_model.fit(x_adasyn,y_adasyn)
-y_pred_adasyn_best = xgb_adasyn_model.predict(x_test)
-y_prob_adasyn_best = xgb_adasyn_model.predict_proba(x_test)
-recall_adasyn_best = recall_score(y_test, y_pred_adasyn_best)
-LogLoss_xgb_best = log_loss(y_test, y_prob_adasyn_best)
+param_grid = {
+    'n_estimators': [50, 100, 150],
+    'learning_rate': [0.01, 0.1, 0.2],
+    'max_depth': [3, 5, 7],
+    'gamma': [0, 0.1, 0.2],
+    'reg_alpha': [0, 0.1],
+    'reg_lambda': [1, 2]
+}
+
+xgb = XGBClassifier(use_label_encoder=False, eval_metric='logloss')
+grid_search = GridSearchCV(xgb, param_grid, cv=5, scoring='recall', verbose=1)
+
+# Fit GridSearchCV Model
+grid_search.fit(x_adasyn,y_adasyn)
+
+
+
+# Retrain model with best parameters on the entire training data
+best_params = grid_search.best_params_
+xgb_adasyn_model = XGBClassifier(**best_params, use_label_encoder=False, eval_metric='logloss')
+xgb_adasyn_model.fit(x_train, y_train)
+
+
+# Predict for test using the best model
+y_pred_xgb_adasyn = xgb_adasyn_model.predict(x_test)
+y_prob_xgb_adasyn = xgb_adasyn_model.predict_proba(x_test)
+recall_xgb_adasyn = recall_score(y_test, y_pred_xgb_adasyn)
+LogLoss_xgb_adasyn = log_loss(y_test, y_prob_xgb_adasyn)
+
+
+dump(xgb_adasyn_model, 'xgb_adasyn_model.pkl')
 
