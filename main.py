@@ -46,7 +46,7 @@ all_filtered = country_filtered.drop(['itemRevenue2','itemRevenue90', 'user_pseu
 
 @app.get("/")
 def home():
-    return {"mesaj":"ML model Api sine hoşgeldiniz!"}
+    return {"mesaj":"Welcome to Power User Predictiıon with ML add /docs end of the URL"}
 
     
 @app.post("/predict/xgboost_adasyn/")
