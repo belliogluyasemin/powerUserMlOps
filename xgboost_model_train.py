@@ -37,7 +37,8 @@ def access_secret_version(project_id, secret_id, version_id="1"):
     return payload
 
 project_id = "psychic-root-424207-s9"
-secret_id = "myfirstproject02_secretman"
+secret_id = "myfirstproject02_secretman"  ## SecretID From GCP Secret Manager
+
 
 secret_payload = access_secret_version(project_id, secret_id)
 gcp_credentials = json.loads(secret_payload)
