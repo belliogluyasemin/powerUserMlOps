@@ -51,5 +51,6 @@ jobs:
         --port=8000 \
         --service-account=${{ secrets.SERVICE_ACCOUNT }} \
         --max-instances=5 \
+        --ingress=internal \
         --region=us-central1 \
         --project=${{ secrets.PROJECT_ID }}
