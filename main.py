@@ -43,6 +43,12 @@ df = pd.read_pickle("df.pkl")
 
 country_filtered = df[df['country'].isin(["United States", "Canada", "Germany", "India", "France", "Taiwan",'Italy', "Japan","Spain", "China", "Singapore", "South Korea", "Netherlands", 'Turkey'])]
 all_filtered = country_filtered.drop(['itemRevenue2','itemRevenue90', 'user_pseudo_id','name','source','cnt','fdate'], axis = 1)
+
+@app.get("/")
+def home():
+    return {"mesaj":"ML model Api sine hoşgeldiniz!"}
+
+    
 @app.post("/predict/xgboost_adasyn/")
 def xgb_adasyn(predict_values: ml_model_schema):
     load_model = pickle.load(open("xgb_adasyn_model.pkl", "rb"))
