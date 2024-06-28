@@ -11,3 +11,5 @@ xgboost ==2.0.3
 ipython
 fastapi == 0.111.0
 uvicorn == 0.29.0
+httpx
+pytest 
