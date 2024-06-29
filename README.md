@@ -1,8 +1,4 @@
-
-
-
-
-# Power User Prediction and Deploy To Cloud Run
+# Power User Prediction, CI/CD Process, and Deployment to Cloud Run
 
 ## Power User Prediction Steps
 
@@ -19,7 +15,6 @@ In this project, power users were identified through a detailed process involvin
 ### 3. Model Selection
 - **Hyperparameter Optimization**: GridSearchCV was used for hyperparameter tuning to find the best model configurations.
 - **Comparison of Models**: Several models were compared based on their performance metrics, including KNN, XGBoost, Logistic Regression, and Random Forest. The XGBoost model with ADASYN oversampling showed the best performance.
-
 
 | Model                                       | Recall  | Precision | Log Loss |
 |---------------------------------------------|---------|-----------|----------|
@@ -40,48 +35,63 @@ In this project, power users were identified through a detailed process involvin
 | RandomForest_SMOTE                          | 72.53%  | 42.00%    | 3.16%    |
 | RandomForest_ADASYN                         | 74.73%  | 32.70%    | 4.43%    |
 
-
 ### 4. Threshold Adjustment and Model Evaluation
 - **Threshold Tuning**: The threshold value of the model was adjusted to optimize performance. Despite testing various thresholds, the default value of 0.5 was retained as it provided the best balance between recall and precision.
 - **ROC AUC Curve Analysis**: The performance of the XGBoost ADASYN model was further validated using the ROC AUC curve, demonstrating strong predictive capabilities.
 
 ### 5. Create and Push Docker Image to Docker Hub
-    
-    1.Build the Docker image using the Dockerfile provided. This command creates an image tagged as xgboost_adasyn_poweruser_image:v1.
-    --docker build -t xgboost_adasyn_poweruser_image:v1 .
-    
-    2.To verify that the image was built correctly, run it locally. This command runs the container in detached mode, mapping port 8000 of the container to port 8000 on the host.
-    --docker run -d -p 8000:8000 --name xgboost_container xgboost_adasyn_poweruser_image:v1
-    
-    3.Before pushing the image to Docker Hub, tag it appropriately with your Docker Hub username and repository name.
-    --docker tag xgboost_adasyn_poweruser_image:v1 yaseminbellioglu/xgboost_adasyn_poweruser_image:v1
-    
-    4.Finally, push the tagged image to Docker Hub. This step uploads the image to your Docker Hub repository, making it available for deployment on other machines.
-    --docker push yaseminbellioglu/xgboost_adasyn_poweruser_image:v1
 
+1. **Build the Docker image**: Use the Dockerfile provided to create an image tagged as `xgboost_adasyn_poweruser_image:v1`.
+    ```sh
+    docker build -t xgboost_adasyn_poweruser_image:v1 .
+    ```
 
-## 6. Cloud Run Deployment With CI/CD Proccess
+2. **Run the image locally**: Verify that the image was built correctly by running it locally.
+    ```sh
+    docker run -d -p 8000:8000 --name xgboost_container xgboost_adasyn_poweruser_image:v1
+    ```
+
+3. **Tag the image**: Before pushing the image to Docker Hub, tag it appropriately with your Docker Hub username and repository name.
+    ```sh
+    docker tag xgboost_adasyn_poweruser_image:v1 yaseminbellioglu/xgboost_adasyn_poweruser_image:v1
+    ```
+
+4. **Push the image**: Upload the image to your Docker Hub repository, making it available for deployment on other machines.
+    ```sh
+    docker push yaseminbellioglu/xgboost_adasyn_poweruser_image:v1
+    ```
+
+## 6. Cloud Run Deployment With CI/CD Process
 
 Cloud Run is used because it provides automatic scaling, simple deployment, and cost efficiency by only charging for actual usage. Unlike VMs, it eliminates the need for manual management and maintenance, allowing for easier integration with other Google Cloud services.
 
 ### 1. Push Docker Image to Artifact Registry
-First, an Artifact Registry repository was created to store the Docker image. Follow these steps to push your Docker image to Artifact Registry:
 
-    1-Authenticate with Google Cloud: Ensure you are logged in to your Google Cloud account.
-    --gcloud auth login
+First, create an Artifact Registry repository to store the Docker image. Follow these steps to push your Docker image to Artifact Registry:
 
-    2-Set Your Project: Configure your project settings.
-    --gcloud config set project PROJECT_ID
+1. **Authenticate with Google Cloud**: Ensure you are logged in to your Google Cloud account.
+    ```sh
+    gcloud auth login
+    ```
 
-    3-Configure Docker to use the gcloud command-line tool to authenticate requests to Artifact Registry.
-    --gcloud auth configure-docker us-central1-docker.pkg.dev
-    
-    4-Build and Tag Your Docker Image: Build the Docker image and tag it with the appropriate name.
-    --docker build -t xgboost_adasyn_poweruser_image:v1 .
-    --docker tag xgboost_adasyn_poweruser_image:v1 us-central1-docker.pkg.dev/psychic-root-424207-s9/xgboost/xgboost_adasyn_poweruser_image:cloudingv1
-    --docker push us-central1-docker.pkg.dev/psychic-root-424207-s9/xgboost/xgboost_adasyn_poweruser_image:cloudingv1
+2. **Set Your Project**: Configure your project settings.
+    ```sh
+    gcloud config set project PROJECT_ID
+    ```
 
-### 2.### IAM Permissions
+3. **Configure Docker**: Use the gcloud command-line tool to authenticate requests to Artifact Registry.
+    ```sh
+    gcloud auth configure-docker us-central1-docker.pkg.dev
+    ```
+
+4. **Build and Tag Your Docker Image**: Build the Docker image and tag it with the appropriate name.
+    ```sh
+    docker build -t xgboost_adasyn_poweruser_image:v1 .
+    docker tag xgboost_adasyn_poweruser_image:v1 us-central1-docker.pkg.dev/psychic-root-424207-s9/xgboost/xgboost_adasyn_poweruser_image:cloudingv1
+    docker push us-central1-docker.pkg.dev/psychic-root-424207-s9/xgboost/xgboost_adasyn_poweruser_image:cloudingv1
+    ```
+
+### 2. IAM Permissions
 
 Before setting up the CI/CD pipeline, ensure that the service account used for GitHub Actions has the following IAM roles assigned:
 
@@ -95,15 +105,9 @@ Before setting up the CI/CD pipeline, ensure that the service account used for G
 
 You can assign these roles in the Google Cloud Console under IAM & Admin > IAM by editing the permissions for your service account.
 
-
-
-
-
-
 ### 3. CI/CD Process
 
 The CI/CD process for PowerUser CR is managed using GitHub Actions. The workflow is defined in the `.github/workflows/docker-image.yml` file and includes steps for building, testing, and deploying the application.
-
 
 ### Workflow File
 
@@ -135,6 +139,7 @@ jobs:
     - name: Run tests
       run: |
         python -m pytest
+
   deploy:
     runs-on: ubuntu-latest
     needs: build_and_test
@@ -155,6 +160,7 @@ jobs:
         gcloud auth configure-docker us-central1-docker.pkg.dev
         docker build -t us-central1-docker.pkg.dev/${PROJECT_ID}/xgboost/xgboost_adasyn_poweruser_image:cloudingv1 .
         docker push us-central1-docker.pkg.dev/${PROJECT_ID}/xgboost/xgboost_adasyn_poweruser_image:cloudingv1
+
     - name: Deploy to Cloud Run
       run: |
         gcloud run deploy xgboost \
@@ -165,11 +171,19 @@ jobs:
         --max-instances=5 \
         --region=us-central1 \
         --project=${{ secrets.PROJECT_ID }}
-    
-    
+```
 
 
-### 4. **Access the API**: Use the provided URL (same like shown as CR_deploy_url.png) to interact with your API. The URL will look something like this:
-    ```sh
-    https://xgboost-adayn-poweruser-image-5g4wxg3l7q4c.a.run.app
+
+### 4. Access the API from CLoud Run
+
+Use the provided URL to interact with your API. The URL will look something like this:
+
+
+
+
+
+
+
+
 
