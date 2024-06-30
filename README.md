@@ -123,37 +123,37 @@ jobs:
   build_and_test:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout Repo
+    - name: Checkout Repo  ##Checkout the Code: GitHub Actions checks out the source code from the GitHub repository
       uses: actions/checkout@v2
 
-    - name: Set up Python
+    - name: Set up Python ##Set up Python: Python 3.11 is set up
       uses: actions/setup-python@v2
       with:
         python-version: '3.11'
       
-    - name: Install dependencies
+    - name: Install dependencies ##Install Dependencies: Required Python packages are installed
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
       
-    - name: Run tests
+    - name: Run tests ##Run Tests: The application's tests are executed
       run: |
-        python -m pytest
+        python -m pytest  
 
   deploy:
     runs-on: ubuntu-latest
     needs: build_and_test
     steps:
-    - name: Checkout Repo
+    - name: Checkout Repo ##Checkout the Code: The source code is checked out again for the deployment job.
       uses: actions/checkout@v2
 
-    - name: Set up gcloud CLI
+    - name: Set up gcloud CLI ##Set up gcloud CLI: gcloud CLI is set up for Google Cloud authentication
       uses: google-github-actions/auth@v1
       with:
         project_id: ${{ secrets.PROJECT_ID }}
         credentials_json: ${{ secrets.CREDENTIALS_JSON }}
 
-    - name: Build and push container image
+    - name: Build and push container image ##Build and Push Docker Image: The Docker image is built and pushed to Artifact Registry
       env:
         PROJECT_ID: ${{ secrets.PROJECT_ID }}
       run: |
@@ -161,7 +161,7 @@ jobs:
         docker build -t us-central1-docker.pkg.dev/${PROJECT_ID}/xgboost/xgboost_adasyn_poweruser_image:cloudingv1 .
         docker push us-central1-docker.pkg.dev/${PROJECT_ID}/xgboost/xgboost_adasyn_poweruser_image:cloudingv1
 
-    - name: Deploy to Cloud Run
+    - name: Deploy to Cloud Run ##Deploy to Cloud Run: The application is deployed to Cloud Run with the necessary settings.
       run: |
         gcloud run deploy xgboost \
         --image=us-central1-docker.pkg.dev/${{ secrets.PROJECT_ID }}/xgboost/xgboost_adasyn_poweruser_image:cloudingv1 \
