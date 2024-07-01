@@ -4,6 +4,21 @@
 
 ![Automated MLOPS Pipeline](https://github.com/belliogluyasemin/powerUserMlOps/blob/main/deneme_diagram.drawio%20(2).png)
 
+
+- **BigQuery** :  Data is queried from bq.
+- **Secret Manager** : Secrets for service account to data access are managed by Secret Manager
+Python & Pandas :Pandas used for get data from BigQuery, python used for all data process & cleaning
+Data Processing, Data Cleaning, Model Training: Data is processed, cleaned, and a model is trained.
+Performance Evaluation, Model Selection: The model's performance is evaluated, and the best model is selected.
+FastAPI: The selected model is wrapped in a FastAPI application.
+Docker: The FastAPI application is containerized using Docker.
+Artifact Registry: The Docker image is stored in the Artifact Registry.
+GitHub: The code is pushed to a GitHub repository.
+GitHub Actions: CI/CD processes are managed by GitHub Actions.
+Test Phase: Model performance tests are run. If tests fail, an email is sent. If tests pass, the model is deployed to Cloud Run, and a URL is generated.
+Cloud Run: The successfully tested model is deployed to Cloud Run and made accessible via a URL.
+
+
 ## Power User Prediction Steps
 
 In this project, power users were identified through a detailed process involving feature engineering, model selection, and evaluation. The methodology used for identifying power users is outlined below:
