@@ -1,5 +1,7 @@
 # Power User Prediction, CI/CD Process, and Deployment to Cloud Run
 
+#Automated MLOPS Pipeline
+
 ![Automated MLOPS Pipeline](https://github.com/belliogluyasemin/powerUserMlOps/blob/main/deneme_diagram.drawio%20(2).png)
 
 ## Power User Prediction Steps
