@@ -1,6 +1,6 @@
 # Power User Prediction, CI/CD Process, and Deployment to Cloud Run
 
-[[https://github.com/istanbuldatascienceacademy/dsDec23/edit/main/proje05/README.md]]
+[[https://github.com/belliogluyasemin/powerUserMlOps/blob/main/deneme_diagram.drawio%20(2).png]]
 
 ## Power User Prediction Steps
 
