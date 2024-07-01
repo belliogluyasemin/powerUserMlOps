@@ -1,6 +1,6 @@
 # Power User Prediction, CI/CD Process, and Deployment to Cloud Run
 
-![Diagram](deneme_diagram.drawio (2).png)
+![Diagram](images/deneme_diagram.drawio (2).png)
 
 ## Power User Prediction Steps
 
