@@ -1,5 +1,7 @@
 # Power User Prediction, CI/CD Process, and Deployment to Cloud Run
 
+![Diagram](attachment:deneme_diagram.drawio (2).png)
+
 ## Power User Prediction Steps
 
 In this project, power users were identified through a detailed process involving feature engineering, model selection, and evaluation. The methodology used for identifying power users is outlined below:
