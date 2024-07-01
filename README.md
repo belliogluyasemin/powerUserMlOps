@@ -7,7 +7,7 @@
 
 - **BigQuery** :  Data is queried from bq.
 - **Secret Manager** : Secrets for service account to data access are managed by Secret Manager
-- **Python & Pandas **:Pandas used for get data from BigQuery, python used for all data process & cleaning
+- **Python & Pandas**:Pandas used for get data from BigQuery, python used for all data process & cleaning
 - **Data Processing, Data Cleaning, Model Training**: Data is processed, cleaned, and a model is trained.
 - **Performance Evaluation, Model Selection**: The model's performance is evaluated, and the best model is selected.
 - **FastAPI**: The selected model is wrapped in a FastAPI application.
@@ -19,7 +19,7 @@
 - **Cloud Run**: The successfully tested model is deployed to Cloud Run and made accessible via a URL.
 
 
-## Power User Prediction Steps
+## All Steps Detailed below ;
 
 In this project, power users were identified through a detailed process involving feature engineering, model selection, and evaluation. The methodology used for identifying power users is outlined below:
 
